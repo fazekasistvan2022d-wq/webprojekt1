@@ -1,0 +1,13 @@
+nav {
+    background-color: #03b4fa;
+    border-radius: 5px;
+    padding: 10px;
+    width: auto;
+}
+a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 400;
+}

@@ -68,15 +68,49 @@ const UserController = {
                     expiresIn: "7d",
                 },
             );
+            res.cookie("refreshToken", refreshToken, {
+                httpOnly: true,
+                secure: false,
+                sameSite: "strict",
+                maxAge: 7 * 24 * 60 * 60 * 1000,
+            });
             await UserModel.updateRefreshToken(user.id, refreshToken);
-            res.json({ message: "Sikeres bejelentkezés", user, accessToken, refreshToken });
+            res.json({ message: "Sikeres bejelentkezés", user, accessToken });
         } catch (err) {
             console.error(err);
             res.status(500).json({ hiba: "Szerver hiba" });
         }
     },
+    async refreshToken(req, res) {
+        const refreshToken = req.cookies.refreshToken;
+        if (!refreshToken) {
+            return res.status(401).json({ hiba: "Nincs frissítő token" });
+        }
+        const newAccessToken = jwt.sign(
+            { id: req.user.id, email: req.user.email, role: req.user.role },
+            process.env.JWT_ACCESS_SECRET,
+            {
+                expiresIn: "10m",
+            },
+        );
+        res.json({ accessToken: newAccessToken });
+    },
+    async test(req, res) {
+        res.json({ message: "Sikeres teszt" });
+    },
+    async logout(req, res) {
+        res.clearCookie("refreshToken", {
+            httpOnly: true,
+            secure: false,
+            sameSite: "Strict",
+        });
+        res.clearCookie("accessToken", {
+            httpOnly: true,
+            secure: false,
+            sameSite: "Strict",
+        });
+        res.send("logged out");
+    },
 };
-
-//login
 
 export default UserController;

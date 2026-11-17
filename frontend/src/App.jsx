@@ -11,6 +11,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import MultiForm from "./components/MultiForm.jsx";
+import AdminPage from "./components/AdminPage.jsx";
+import TestForm from "./components/TestForm.jsx";
 import "./App.css";
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<UserForm />} />
                 <Route path="/multiform" element={<MultiForm />} />
+                <Route path="/admin" element={<AdminPage />} />
+                <Route path="/test" element={<TestForm />} />
             </Routes>
             <Footer />
         </Router>
